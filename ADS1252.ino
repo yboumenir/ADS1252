@@ -1,6 +1,8 @@
 
 #include <SPI.h>
-#include <math.h>
+// #include <math.h>
+
+// Will try to use minimal libraries
 
 #define MISOPIN 12
 #define SCLKPIN 13
@@ -8,28 +10,33 @@
 byte byte1; byte byte2; byte byte3;
 byte flipper = 0b11111111; // 8 bit number to flip bits of a byte
 byte addone = 0b1; // to add one to the two's complement
+
+
 int check = byte3 << 1;
 
+double ads_output =0;
 
 // declare 3 bytes = 24 bits
 
 // Other Stuff
-#include <StandardCplusplus.h>
-#include <serstream>
+// #include <StandardCplusplus.h>
+// #include <serstream>
 #include <avr/pgmspace.h>
 
 
-using namespace std;
+// using namespace std;
 
 // <iostream> declares cout/cerr, but the application must define them
 // because it's up to you what to do with them.
+
+/*
 namespace std
 {
   ohserialstream cout(Serial);
 }
 
 extern void more(void);
-
+*/
 
 void setup()
 {
@@ -100,7 +107,12 @@ void read_adc()
 // no need to flip or add one
         addone = 0b0;
         }
-        cout << " two's Complement : " <<  5*(((byte3 << 16) + (byte2 << 8) + (byte1 + addone))/pow(2,24)) << endl;
+        
+        ads_output = 5*(((byte3 << 16) + (byte2 << 8) + (byte1 + addone))) >> 24; 
+
+        Serial.println(ads_output);
+        
+        //cout << " two's Complement : " <<  5*(((byte3 << 16) + (byte2 << 8) + (byte1 + addone))/pow(2,24)) << endl;
 
  
  // print out data;
